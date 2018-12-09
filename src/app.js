@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import 'normalize.css/normalize.css';
 import './Styles/styles.scss';
 
@@ -22,7 +22,7 @@ const NotFoundPage = () => {
 
 const routes = (
 	<BrowserRouter>
-		<div>
+		<Switch>
 			<Route path="/" component={ExpenseDashboardPage} exact={true} />
 
 			<Route path="/create" component={AddExpensePage} exact={true} />
@@ -31,8 +31,8 @@ const routes = (
 
 			<Route path="/help" component={HelpPage} exact={true} />
 
-			<Route component={NotFoundPage} exact={true} />
-		</div>
+			<Route component={NotFoundPage} />
+		</Switch>
 	</BrowserRouter>
 );
 
