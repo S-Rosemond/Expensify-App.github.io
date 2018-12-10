@@ -13,10 +13,7 @@ const Header = () => {
 				Add
 			</NavLink>
 			<br />
-			<NavLink activeClassName="is-active" to="/edit" exact={true}>
-				Edit
-			</NavLink>
-			<br />
+
 			<NavLink activeClassName="is-active" to="/help" exact={true}>
 				Get help
 			</NavLink>

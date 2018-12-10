@@ -17,7 +17,7 @@ const AppRouter = () => (
 
 				<Route path="/create" component={AddExpense} exact={true} />
 
-				<Route path="/edit" component={EditExpense} exact={true} />
+				<Route path="/edit/:id" component={EditExpense} exact={true} />
 
 				<Route path="/help" component={Help} exact={true} />
 
