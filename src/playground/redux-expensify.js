@@ -13,9 +13,8 @@ const addExpense = ({ description = '', note = '', amount = 0, createdAt = 0 } =
 	}
 });
 
-//REMOVE_EXPENSE //Course version = ({id}={})
-//I did prop.expense because we have to pass in a value
-const removeExpense = ({ id } = prop.expense) => ({
+//REMOVE_EXPENSE
+const removeExpense = ({ id } = {}) => ({
 	type: 'REMOVE_EXPENSE',
 	expense: {
 		id
@@ -23,8 +22,19 @@ const removeExpense = ({ id } = prop.expense) => ({
 });
 
 //EDIT_EXPENSE
+const editExpense = (id, updates) => ({
+	type: 'EDIT_EXPENSE',
+	id,
+	updates
+});
 //SET_EXPENSE
+
 //SET_TEXT_FILTER
+const setTextFilter = (text = '') => ({
+	type: 'SET_TEXT_FILTER',
+	text
+});
+
 //SORT_BY_DATE
 //SORT_BY_AMOUNT
 //SET_START_DATE
@@ -39,16 +49,17 @@ const expensesReducer = (state = expensesReducerDefault, action) => {
 		case 'ADD_EXPENSE':
 			return [...state, action.expense];
 		case 'REMOVE_EXPENSE':
-			console.log(action);
-			console.log(state);
 			return state.filter(element => element.id !== action.expense.id);
+		case 'EDIT_EXPENSE':
+			return state.map(element => {
+				return element.id === action.id ? { ...element, ...action.updates } : element;
+			});
 		default:
 			return state;
 	}
 };
 
 //Fitler reducer
-
 const filtersReducerDefault = {
 	text: '',
 	sortBy: 'date',
@@ -58,6 +69,9 @@ const filtersReducerDefault = {
 
 const filtersReducer = (state = filtersReducerDefault, action) => {
 	switch (action.type) {
+		case 'SET_TEXT_FILTER':
+			console.log('action:', action);
+			return { ...state, text: action.text };
 		default:
 			return state;
 	}
@@ -80,6 +94,10 @@ const expenseTwo = store.dispatch(addExpense({ description: 'Coffe', amount: 300
 
 store.dispatch(removeExpense({ id: expenseOne.expense.id }));
 
+store.dispatch(editExpense(expenseTwo.expense.id, { amount: 500 }));
+
+store.dispatch(setTextFilter('rent'));
+
 const demoState = {
 	expenses: [
 		{
@@ -97,3 +115,16 @@ const demoState = {
 		endDate: undefined
 	}
 };
+
+// const user = {
+// 	name: 'Jen',
+// 	age: 24
+// };
+
+// let objClone = { ...user };
+// console.log(objClone);
+// console.log({
+// 	...user,
+// 	location: 'Philadelphia',
+// 	age: 27
+// });
