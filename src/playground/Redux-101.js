@@ -1,13 +1,5 @@
 import { createStore } from 'redux';
 
-//Action generators-functions that return action objects
-
-//Idea:
-const add = data => {
-	return data.a + data.b;
-};
-console.log(add({ a: 1, b: 12 }));
-
 const incrementCount = ({ incrementBy = 1 } = {}) => ({
 	type: 'INCREMENT',
 	incrementBy
@@ -26,7 +18,18 @@ const setCount = ({ count }) => ({
 	count
 });
 
-const store = createStore((state = { count: 0 }, action) => {
+//Reducers
+//1.Reducers are pure functions
+//2. Never change state or action
+
+//non pure function below
+// let a = 10;
+// const add = b => a + b;
+
+//pure function: input => output
+const add = (a, b) => a + b;
+
+const countReducer = (state = { count: 0 }, action) => {
 	switch (action.type) {
 		case 'INCREMENT':
 			return {
@@ -43,17 +46,14 @@ const store = createStore((state = { count: 0 }, action) => {
 		default:
 			return state;
 	}
-});
+};
+
+const store = createStore(countReducer);
 
 //Subscribe. return func (ref)= any(); : stop ||unsub
 const unsubscribe = store.subscribe(() => {
 	console.log(store.getState());
 });
-
-// store.dispatch({
-// 	type: 'INCREMENT',
-// 	incrementBy: 5
-// });
 
 store.dispatch(incrementCount({ incrementBy: 5 }));
 store.dispatch(incrementCount());
